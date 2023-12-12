@@ -93,7 +93,6 @@ function buy(id) {
                 return item.id === id;
             });
 
-
             // 2. Add found product to the cart array
 
             //index != -1 --> producto está dentro del carrito (según su índice) y hay que incrementar la cantidad
@@ -110,9 +109,9 @@ function buy(id) {
             }
 
             console.log(products[i].name + " añadido al carrito.");
-            //let cartList = cart;
+
             console.log(cart, "el carrito");
-            //console.log(cartList);
+
 
             //Añade cantidad al contador del carrito
             //let totalCounter = 0;
@@ -126,7 +125,6 @@ function buy(id) {
             //4. Llamar a la función applyPromotionsCart para aplicar descuentos si se cumplen las condiciones
 
             applyPromotionsCart();
-
 
             //3. Llamar a la función calculoTotal para que contabilize el total cada vez que añadimos un producto al carrito:
 
@@ -163,16 +161,12 @@ function updateTotalCounter() {
 //En aquesta ocasió, hauràs d'emplenar la funció cleanCart(), la qual ha de reinicialitzar la variable cartList.
 function cleanCart() {
     carritoVacio = [];
-    //let cartList = cart;
-    //console.log(cartList, "la lista del carrito");
-    console.log(cart, "carrito sin vaciar")
-    //let cartListEliminada = cart.splice(0, cart.length);
+
     carritoVacio = cart.length = 0;
-    console.log(carritoVacio, "Carrito vacío");
 
     //Vaciar el DOM nuevo
 
-    let listaCarritoProductosDOM = ""; //poner [] probar [];
+    let listaCarritoProductosDOM = "";
 
     for (let j = 0; j < cart.length; j++) {
         listaCarritoProductosDOM = listaCarritoProductosDOM + (`${cart[j].name} + Precio: ${cart[j].price}, Cantidad: ${cart[j].quantity}`);
@@ -184,7 +178,7 @@ function cleanCart() {
     document.getElementById("total_price").innerHTML = listaCarritoProductosDOM;
 
     //Vaciar nº carrito
-    //let totalCounter = 0;
+    let totalCounter = 0;
     for (let i = 0; i < cart.length; i++) {
         totalCounter += cart[i].counter;
     }
@@ -203,27 +197,14 @@ function calculateTotal() {
     let cartListPrecio = [];
 
     for (let t = 0; t < cart.length; t++) {
-        let precio = cart[t].price; //El precio será el precio original de cada producto
-        console.log(precio, "Después de la interación de la función CalculateTotal")
-        // let precioSumado = (cart[t].price * cart[t].quantity);
-        // cartListPrecio.push(precioSumado);
-        // console.log(`Array del precio total de cada producto: SUMA TOTAL? ${cartListPrecio}`);
+        let precio = cart[t].price;
 
         //Añadimos ifs para aplicar los precios con descuento si se cumplen las condiciones
         if ((cart[t].name === "cooking oil") && (cart[t].quantity >= 3)) {
-            //precio = subtotalWithDiscountp1;
             cartListPrecio.push(subtotalWithDiscountp1); //si entra el if metemos el precio con descuento y con su cantidad dentro del array cartListPrecio
-            console.log(cart[t].price, "Ha entrado el primer if del calculo del precio total, precio con descuento producto 1");
-            console.log(subtotalWithDiscountp1, "Dentro del if este precio debería ser el precio con descuento");
-            //precioSumado = precio * cart[t].quantity;
-            //total = total + cart[t].price; // +total
-            //console.log(total, "Función calculateTotal, el total con descuento del producto 1 cooking oil");
 
         } else if ((cart[t].name === "Instant cupcake mixture") && (cart[t].quantity >= 10)) {
             cartListPrecio.push(subtotalWithDiscountp3);
-            console.log(cart[t].price, "Ha entrado el segundo if del calculo del precio total, precio con descuento producto 3");
-            console.log(subtotalWithDiscountp3, "Ha entrado el 2do if, este es el precio con descuento del producto id = 3");
-            //total = total + cart[t].price;
 
         } else {
 
@@ -237,16 +218,11 @@ function calculateTotal() {
 
     }
 
-    //console.log(cartListPrecio, "array de precios antes de utilizar reduce");
-
     // Utilizamos el método reduce para sumar todos los precios totales de nuestro array cartListPrecio a 1 solo valor y asignamos el resultado a la variable total
 
     total = cartListPrecio.reduce(function (acc, precio) {  //Hace una iteración en la que se suma el valor precio de cada elemento y acumula esa suma al acumulador (acc) que contendrá al final de la iteración la suma total de los elementos del array cartListPrecio.
         return acc + precio;
     }, 0);
-
-    //console.log(total, "BIEN???? total del precio de todos los prodcutos")
-    // total =  subtotalWithDiscountp1 //+ products[i].price;
 
     //Mostrarlo en el DOM de precio total:
     document.getElementById("total_price").innerHTML = `${total}`;
@@ -263,49 +239,41 @@ function calculateTotal() {
 // En cas que un producte tingui descompte, s'ha de guardar el preu total amb descompte en el camp: subtotalWithDiscount.
 // Si no s'ha d'aplicar descompte, no fa falta que guardis res.
 
-
-
 function applyPromotionsCart() {
     // Apply promotions to each item in the array "cart"
 
     // Hacer un for que recorra el array cart en busca de los productos con descuento (identificarlos con el name o el id) y a partir de ahí aplicar los descuentos 
     // si se cumple la condición del if (cantidad mínima).
 
-
     for (p = 0; p < cart.length; p++) {
         console.log(cart[p].name, "nombre de productos en el array cart, hecho con for (EX4PROMOTIONS)");
         //1.Identificar en el carrito productos que puedan tener promoción (id=1 o id=3);
-        if (cart[p].id === 1 && cart[p].quantity >= 3) { // || cart[p].id === 3 // Si carrito con producto con posible promoción (id=1 cooking oil) Y su cantidad >=3 -->APLICAR PROMO
+        if (cart[p].id === 1 && cart[p].quantity >= 3) {
             //Si en carrito hay productos que pueden tener promoción --> comprobar la cantidad de esos productos --> aplicar promoción
-            console.log("Ha entrado el if del producto id=1, existe un producto en el carrito con id=1 y por lo tanto posible promoción")
-            console.log(cart[p].quantity, "Cantidad en teoria del producto id=1 (cooking oil)");
-            console.log(cart[p].price, "El precio de 1 producto");
             //Calculo del precio total de 1 producto
             let precioTotalSinDescuento = (cart[p].price * cart[p].quantity);
-            console.log(precioTotalSinDescuento, "Precio total 1 producto sin descuento (precio x cantidad");
+
             //Calculo del descuento del producto 1
             let cantidadDescuentop1 = (precioTotalSinDescuento * 0.2);
-            console.log(cantidadDescuentop1, "La cantidad del descuento del producto 1");
+
             //Calculo total del precio con descuento (incluida la cantidad)
             subtotalWithDiscountp1 = (precioTotalSinDescuento - cantidadDescuentop1);
-            console.log(subtotalWithDiscountp1, "El precio total del producto id=1 (cooking oil) con descuento");
 
         }
 
         if (cart[p].id === 3 && cart[p].quantity >= 10) {
             //si producto tiene id=3 y su cantidad >= 10 aplicar descuento del 30%
-            console.log("Ha entrado el if del producto id=3, existe un producto en el carrito con id=3 y por lo tanto posible promoción");
-            console.log(cart[p].quantity, "Cantidad en teoria del producto id=3??? (instant cupcake mixture)");
-            console.log(cart[p].price, "El precio de 1 producto");
+
             //Calculo del precio total de 1 producto
             let precioTotalSinDescuento = (cart[p].price * cart[p].quantity);
-            console.log(precioTotalSinDescuento, "Precio total 1 producto sin descuento (precio x cantidad");
+
+
             //Calculo del descuento del producto 3
             let cantidadDescuentop3 = (precioTotalSinDescuento * 0.3);
-            console.log(cantidadDescuentop3, "La cantidad del descuento del producto 3");
+
+
             //Calculo total del precio con descuento (incluida la cantidad)
             subtotalWithDiscountp3 = (precioTotalSinDescuento - cantidadDescuentop3);
-            console.log(subtotalWithDiscountp3, "El precio total del producto con id=3 (instant cupcake mixture) con descuento");
 
         }
     }
@@ -354,13 +322,12 @@ function printCart() {
 
 
         // Total con descuento (si es necesario)
-        //Hacer un if para que si el producto tiene descuento que lo agregue a la fila con ese descuento?
+
         let totalCelda = document.createElement("td");
-        console.log(cart[j].name, "Es el nombre del precio con descuento");
-        console.log(subtotalWithDiscountp1, "Precio con descuento función printcart");
-        if ((cart[j].name === "cooking oil") && (cart[j].quantity >= 3)) { //|| cart[j].name === "Instant cupcake mixture"
+
+        if ((cart[j].name === "cooking oil") && (cart[j].quantity >= 3)) {
             totalCelda.textContent = `$${subtotalWithDiscountp1}`
-            console.log(subtotalWithDiscountp1, "Ha entrado el primer if del descuento, precio con descuento producto 1");
+
 
         } else if ((cart[j].name === "Instant cupcake mixture") && (cart[j].quantity >= 10)) {
             totalCelda.textContent = `$${subtotalWithDiscountp3}`
@@ -402,9 +369,9 @@ function removeFromCart(id) {
             cart.splice(productoEnCarritoIndex, 1);
         }
 
-        console.log("Cantidad decrementada y producto eliminado si es 0");
+
     } else {
-        console.log("El producto no está en el carrito");
+
     }
 
     updateTotalCounter();
@@ -418,7 +385,7 @@ function removeFromCart(id) {
 
     calculateTotal();
 
-    //  //2. Llamar a la función printCart() que imprime los productos en el modalCart (DOM)
+    //2. Llamar a la función printCart() que imprime los productos en el modalCart (DOM)
     printCart();
 
 }

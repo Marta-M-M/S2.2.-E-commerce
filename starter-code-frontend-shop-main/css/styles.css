@@ -11290,7 +11290,7 @@ textarea.form-control-lg {
 
 /*Modifico estilos*/
 
-.navbar{
+ .navbar{
   background-color: darkolivegreen !important /*poner el mismo color en el footer*/
 }
 
@@ -11298,7 +11298,6 @@ header{
   background-color: saddlebrown !important;
   
 }
-
 
 body{
   font-style: normal;
@@ -11316,4 +11315,4 @@ footer{
 
 .card-body.zero-makeup{
   padding: 0em 1em;
-}
+} 
